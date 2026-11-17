@@ -4,7 +4,7 @@ English | [中文](README.md)
 
 When you use Codex (the official OpenAI extension) in VS Code, it does not tell you when a **task finishes**, when it is **waiting for your answer**, or when it **needs your approval**. This extension shows a **Windows notification** at those moments and can also push to **Bark on iPhone**.
 
-<!-- ![Settings panel](docs/images/panel.png) -->
+![Settings panel](docs/images/panel.png)
 
 ## Features
 

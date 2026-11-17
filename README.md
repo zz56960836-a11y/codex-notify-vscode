@@ -4,8 +4,7 @@
 
 在 VS Code 里用 Codex（OpenAI 官方扩展）时，**任务做完了、在等你回答、在等你批准**，它不会提醒你。这个插件会在这些时候弹出 **Windows 通知**，同时（可选）推送到 **iPhone 的 Bark**。
 
-<!-- 截图：把面板截图放到 docs/images/panel.png 后取消下一行注释 -->
-<!-- ![设置面板](docs/images/panel.png) -->
+![设置面板](docs/images/panel.png)
 
 ## 功能
 
