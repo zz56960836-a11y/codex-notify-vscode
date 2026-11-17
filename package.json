@@ -1,0 +1,155 @@
+{
+  "name": "codex-notify",
+  "displayName": "Codex Notify",
+  "description": "Codex 任务结束、等待回答、等待审批时发送 Windows 通知和 Bark 推送。密钥保存在系统凭据管理器。",
+  "version": "1.0.0",
+  "publisher": "zz56960836-a11y",
+  "author": {
+    "name": "zz56960836-a11y"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zz56960836-a11y/codex-notify-vscode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zz56960836-a11y/codex-notify-vscode/issues"
+  },
+  "homepage": "https://github.com/zz56960836-a11y/codex-notify-vscode#readme",
+  "keywords": [
+    "codex",
+    "openai",
+    "notification",
+    "bark",
+    "windows",
+    "wsl",
+    "hooks"
+  ],
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "extensionKind": [
+    "ui"
+  ],
+  "main": "./extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "scripts": {
+    "test": "node test/unit.test.js && node test/panel.test.js && python3 -m unittest discover -s test -p \"test_*.py\"",
+    "package": "python3 scripts/build_vsix.py"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "codexNotify.openPanel",
+        "title": "Codex Notify: 打开通知面板"
+      },
+      {
+        "command": "codexNotify.installHooks",
+        "title": "Codex Notify: 安装/修复 Codex hooks"
+      },
+      {
+        "command": "codexNotify.removeHooks",
+        "title": "Codex Notify: 移除 Codex hooks"
+      },
+      {
+        "command": "codexNotify.testWindows",
+        "title": "Codex Notify: 测试 Windows 通知"
+      },
+      {
+        "command": "codexNotify.testBark",
+        "title": "Codex Notify: 测试 Bark 推送"
+      }
+    ],
+    "configuration": {
+      "title": "Codex Notify",
+      "properties": {
+        "codexNotify.windows.enabled": {
+          "type": "boolean",
+          "default": true,
+          "scope": "application",
+          "description": "Windows 通知总开关"
+        },
+        "codexNotify.windows.sound": {
+          "type": "boolean",
+          "default": true,
+          "scope": "application",
+          "description": "Windows 通知播放提示音"
+        },
+        "codexNotify.bark.enabled": {
+          "type": "boolean",
+          "default": false,
+          "scope": "application",
+          "description": "Bark 推送总开关（密钥在通知面板里设置，不保存在 settings.json）"
+        },
+        "codexNotify.bark.server": {
+          "type": "string",
+          "default": "https://api.day.app",
+          "scope": "application",
+          "description": "Bark 服务器地址（只能是 https）"
+        },
+        "codexNotify.bark.mode": {
+          "type": "string",
+          "enum": [
+            "plain",
+            "encrypted"
+          ],
+          "default": "plain",
+          "scope": "application",
+          "description": "plain = 常规推送；encrypted = 内容加密推送"
+        },
+        "codexNotify.bark.cipher": {
+          "type": "string",
+          "enum": [
+            "aes-cbc",
+            "aes-gcm"
+          ],
+          "default": "aes-cbc",
+          "scope": "application",
+          "description": "加密模式，需与 iPhone Bark 的推送加密设置一致；AES-128/192/256 由加密 Key 长度决定"
+        },
+        "codexNotify.bark.urgent": {
+          "type": "boolean",
+          "default": true,
+          "scope": "application",
+          "description": "等待回答/等待审批使用 Bark 时效性通知（可突破专注模式）"
+        },
+        "codexNotify.events": {
+          "type": "object",
+          "scope": "application",
+          "default": {
+            "complete": {
+              "windows": true,
+              "bark": true
+            },
+            "input": {
+              "windows": true,
+              "bark": true
+            },
+            "approval": {
+              "windows": true,
+              "bark": true
+            }
+          },
+          "description": "各类通知分别在哪个通道发送"
+        },
+        "codexNotify.includeSummary": {
+          "type": "boolean",
+          "default": false,
+          "scope": "application",
+          "description": "通知中包含 Codex 最后回复/问题/命令的前 80 个字（Bark 常规模式下会经过 Bark 和 Apple 服务器）"
+        },
+        "codexNotify.onlyWhenUnfocused": {
+          "type": "boolean",
+          "default": false,
+          "scope": "application",
+          "description": "VS Code 窗口在前台时不发 Windows 通知（Bark 不受影响）"
+        }
+      }
+    }
+  }
+}
